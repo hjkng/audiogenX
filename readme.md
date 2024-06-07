@@ -22,7 +22,6 @@ Refer to requirements.txt for more details.
   python gen_audio.py # generate explanation mask and factual & counterfactual audio
 
   # if you want to explain generated audios
-  pip install panns_inference
   python explain.py # explain generated_audio & evalaute factual and counterfactual audio
 ```
 
