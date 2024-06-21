@@ -17,8 +17,8 @@ if __name__ == '__main__':
     audiogen = AudioGen.get_pretrained('facebook/audiogen-medium')
     explainer = Explainer(audiogen, audiogen.lm)
 
-    promt_data = f"./data/{args.dataset}.csv"
     dir = f"./data/{args.dataset}"
+    promt_data = f"./{dir}/{args.dataset}.csv"
 
     if not os.path.exists(dir):
         os.makedirs(dir)
@@ -33,7 +33,7 @@ if __name__ == '__main__':
 
     length = len(df['caption'])
 
-    batch = 100
+    batch = 10
 
     sequences = []
     conds = []
@@ -44,21 +44,17 @@ if __name__ == '__main__':
             sequence, _, outs = explainer.generate_with_mask(description)
             sequence = sequence.detach().cpu()
             outs = outs.detach().cpu()
-            logit = logit.detach().cpu()
 
         B = outs.shape[0]
         cond, _ = outs.split(B//2, dim=0)
 
         sequences.append(sequence)
         conds.append(cond)
-        logits.append(logit)
 
     sequences = torch.cat(sequences, dim=0)
     conds = torch.cat(conds, dim=0)
-    logits = torch.cat(logits, dim=0)
 
-    print(sequences.shape, conds.shape, logits.shape)
+    print(sequences.shape, conds.shape)
 
     torch.save(sequences, f'{dir}/sequences.pt')
     torch.save(conds, f'{dir}/conds.pt')
-    torch.save(logits, f'{dir}/logits.pt')
