@@ -2,7 +2,7 @@
 We sincerely appreciate your valuable feedback and time for reviewing this paper. For the concerns you bring up, we would like to address them as follows.
 
 ### Weakness 1: Scenario of AudioGenX.
-Explaining generated audio brings benefits in several cases: 1)  AudioGenX increases awareness of the impact of each input part, helping us ensure that the model focuses on the correct aspects of the text. 2) Explanations provide insight for users to plan the next prompting strategy when the previous audio generation is not satisfied. 3) When the user wants to edit the audio to amplify/suppress the impact of certain textual input, the importance may serve as the actionable information to decide how much to adjust the related weight involving the edition. Please refer the attached pdf where the figure of above scenario is described.
+Thank you for pointing this out. Explaining generated audio brings benefits in several cases: 1)  AudioGenX increases awareness of the impact of each input part, helping us ensure that the model focuses on the correct aspects of the text. 2) Explanations provide insight for users to plan the next prompting strategy when the previous audio generation is not satisfied. 3) When the user wants to edit the audio to amplify/suppress the impact of certain textual input, the importance may serve as the actionable information to decide how much to adjust the related weight involving the edition. Please refer the attached pdf where the figure of above scenario is described.
 
 ### Weakness 2: Addressing clarity in the abstract.
 When AudioGen succeeds in describing audio in response to textual input, for example, the descriptive text as "Railroad crossing signal followed by a train passing and blowing horn," it is comparatively easy to understand outputs. However, it often fails to convert certain part of textual input to audio. In that case, it is hard to know how much AudioGen considers the information quantitatively, leaving users in a state of uncertainty following possible questions like "How much a missing texual token is related to the current audio?" When the importance of the texual token is low, removing the token does not much impact to the generated audio. Conversely, the token of high importance can significantly influence the audio, so this information helps users to make the next prompting strategy. AudioGenX aims to answer questions to provide an explanation quantifying the importance of each text token corresponding to the generated audio.
@@ -21,9 +21,16 @@ We sincerely appreciate your valuable feedback and time for reviewing this paper
 ### Weakness 1: Addressing clarity and coherence.
 We thanks for bringing up this lack of clarity. We agree that notations are quite numerous to represent the architecutre of Audiogen where many components are composed. 
 
+### Weakness 2: Addressing 
 
-### Question 1:
+### Weakness 3: Addressing general
 
 
-### Question 2:
+### Question 1-2:
+
+### Question 3-5:
+
+### Question 6-11:
+
+
 
