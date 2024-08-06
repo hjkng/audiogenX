@@ -1,4 +1,4 @@
-### Response to Reviewer 81aq
+## Response to Reviewer 81aq
 We sincerely appreciate your valuable feedback and time for reviewing this paper. For the concerns you bring up, we would like to address them as follows.
 
 ### Weakness 1: Scenario of AudioGenX.
@@ -11,4 +11,19 @@ When AudioGen succeeds in describing audio in response to textual input, for exa
 While large language models like ChatGPT can identify significant sound-like words, this capability does not translate into a meaningful explanation for generated audio. AudioGen, which uses top-k or top-p sampling for generation, produces varied audio outputs with each trial. In this context, AudioGenX can detect and quantify distinctive features of each audio generated from the same textual input, providing differentiated explanations for each audio instance.
 
 ### Question 2: Explanation in case of negation and double negation.
-We present explanations for cases involving negation and double negation, as detailed in the attached PDF. Using AudioGenX, we observe that the negative words "without" and "no without" have lower importance compared to "thunder" in the explanations. Interestingly, both "without" and "no without" result in generated audio that includes the sound of thunder. We hypothesize that this occurs because the training dataset lacks sufficient examples of negation and double negation. An examination of the AudioCaps dataset reveals a scarcity of such cases. Consequently, the generation model's limitations in handling negation are reflected in AudioGenX's explanations, which assign minimal importance to these words.
+We present explanations for cases involving negation and double negation, as detailed in the attached PDF. Using AudioGenX, we observe that the negative words "without" and "no without" have lower importance compared to "thunder" in the explanations. Interestingly, both "without" and "no without" result in generated audio that includes the sound of thunder. We hypothesize that this occurs because the training dataset lacks sufficient examples of negation and double negation. An examination of the AudioCaps dataset reveals a scarcity of such cases. Consequently, the generation model's limitations in handling negation are reflected in AudioGenX's explanations, which assign lower importance to these negation words.
+
+----------------------------------------------------------------------------
+
+## Response to Reviewer s1so
+We sincerely appreciate your valuable feedback and time for reviewing this paper. For the concerns you bring up, we would like to address them as follows.
+
+### Weakness 1: Addressing clarity and coherence.
+We thanks for bringing up this lack of clarity. We agree that notations are quite numerous to represent the architecutre of Audiogen where many components are composed. 
+
+
+### Question 1:
+
+
+### Question 2:
+
