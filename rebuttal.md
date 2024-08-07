@@ -52,17 +52,17 @@ We sincerely appreciate your valuable feedback and time for reviewing this paper
 
 ### Weakness 1: Addressing clarity.
 
-### Weakness 2: Addressing clarity.
-
+### Weakness 2: Evaluating explanations on additional datasets.
 
 ### Question 1: Optimizing explanation masks.
 
 ### Question 2: Visual analysis of the attention matrix vs explanation in AudioGenX.
 
-### Question 3: Hyper-parameter setting for coefficient β and γ
+### Question 3: Hyper-parameter setting for coefficient β and γ.
+Hyperparameter search for β and γ is conducted on the valid dataset which is described in line 240 in section 5.
 
-### Question 4: Time complexity of AudioGenX and ATMAN
-
+### Question 4: Time complexity of AudioGenX and ATMAN.
+The time complexity of ATMAN is $O(T_u)$, where $T_u$ represents the number of textual tokens. ATMAN extracts important tokens through single-token perturbation, requiring $T_u$ iterations. In comparison, AudioGenX has a time complexity of $O(T_u k)$, with $k$ denoting the number of epochs. Although both $O(T_u)$ and $O(T_u k)$ increase linearly with respect to $T_u$, making their time complexities equivalent in terms of growth rate, the actual difference in $k$ results in approximately five times the inference time for AudioGenX.
 
 ----------------------------------------------------------------------------
 
