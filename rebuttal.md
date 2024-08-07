@@ -46,7 +46,8 @@ While the explanation mask is defined in lines 134 and 135, $m_{i}$ is an entity
 We replace multiple MLPs with multiple linear layers and use the PReLU activation function. Unlike the standard softmax, the Gumbel-softmax function is employed to force values closer to 0 or 1 to observe a significant effect of perturbation. Since the explanation is the output from the explainer, the objective function is defined in Eq (7). As described in Algorithm 1 on page 6, our explainer is optimized using the loss function in Eq (7) for the explanation mask.
 
 ### Reference
-[1] Masked Audio Generation using a Single Non-Autoregressive Transformer, ICLR, 2024.
+[1] Masked Audio Generation using a Single Non-Autoregressive Transformer, ICLR, 2024. 
+
 [2] Connecting Speech Encoder and Large Language Model for ASR, IEEE, 2024.
 
 ----------------------------------------------------------------------------
@@ -56,7 +57,8 @@ We sincerely appreciate your valuable feedback and time for reviewing this paper
 
 ### Weakness 1: Addressing clarity.
 
-### Weakness 2: Evaluating explanations on additional datasets.
+### Weakness 2: Recommendation for additional datasets.
+
 
 ### Question 1: Optimizing explanation masks.
 
@@ -80,9 +82,9 @@ We sincerely appreciate your valuable feedback and time for reviewing this paper
 ### Weakness 3: Benefits of the proposed explanations.
 
 ### Weakness 4: Addressing typos.
+We thank you for 
 
 ### Question 1: Inquiry of overall procedure.
-
 
 
 ----------------------------------------------------------------------------
