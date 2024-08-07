@@ -36,6 +36,44 @@ We thanks for bringing up this lack of clarity. We agree that notations are quit
 
 ----------------------------------------------------------------------------
 
+## Response to Reviewer rLwA
+We sincerely appreciate your valuable feedback and time for reviewing this paper. For the concerns you bring up, we would like to address them as follows.
+
+### Weakness 1: Addressing clarity.
+
+### Weakness 2: Addressing clarity.
+
+
+### Question 1: Optimizing explanation masks.
+
+### Question 2: Visual analysis of the attention matrix vs explanation in AudioGenX.
+
+### Question 3: Hyper-parameter setting for coefficient β and γ
+
+### Question 4: Time complexity of AudioGenX and ATMAN
+
+
+----------------------------------------------------------------------------
+
+## Response to Reviewer 9Txk
+We sincerely appreciate your valuable feedback and time for reviewing this paper. For the concerns you bring up, we would like to address them as follows.
+
+### Weakness 1: Addressing readability.
+
+### Weakness 2: Addressing lack of readability.
+
+
+### Weakness 3: Addressing lack of readability.
+
+### Weakness 4: Addressing typos.
+
+
+### Question 1: Inquiry of overall procedure.
+
+
+
+----------------------------------------------------------------------------
+
 ## Response to Reviewer yHGn
 We sincerely appreciate your valuable feedback and time for reviewing this paper. For the concerns you bring up, we would like to address them as follows.
 
@@ -45,7 +83,7 @@ While perturbation-based explanation methods, including factual and counterfactu
 ### Weakness 2: Addressing aptness of evaluation metrics.
 Evaluating explanations is particularly challenging when ground truth or class labels are unavailable. In generation tasks, such ground truths and labels do not exist. When the same textual input is fed into the generation model, the output can vary due to top-p (nucleus) sampling. Therefore, a confusion matrix is inadequate in the absence of ground truths. Given the nature of the audio domain, KL divergence is widely employed in most audio generation research. This metric leverages the distribution of each class to represent the inherent meaning of audio. While traditional audio generation models measure KL divergence between generated audio and reference audio in datasets like AudioCaps, we measure the difference between generated audio and factual/counterfactual audio perturbed through optimized explanation masks. This allows us to observe the impact of explanation masks even in the absence of ground truths.
 
-### Question: Suggestion for another training method to improve the audio generation quality.
+### Question 1: Suggestion for another training method to improve the audio generation quality.
 Unfortunately, employing the mentioned methods is not feasible for several reasons. First, evaluation techniques involving audio classification models require audio input, necessitating the generation of the full sequence of audio at every epoch when optimizing the explainer. This makes parallel generation impractical and significantly increases computational time. Second, the redundant process of converting discrete audio tokens to waveforms using Encodec is mandatory for employing an audio classifier, further increasing computational costs. Third, obtaining gradients for optimizing the explainer is unreliable because the top-p or top-k sampling parts must be modified to differential sampling. To address these challenges, we reformulate the problem by explaining sequential output at the token level to generate explanations efficiently. Specifically, we multiply the importance weights with cross-attention weights to generate factual and counterfactual audio, allowing us to observe the impact of respective explanation masks on the generated audio. Notably, we do not utilize reference audio (which typically means the original sound corresponding to specific descriptive text in the AudioCaps dataset) for evaluation but the generated audio.
 
 
