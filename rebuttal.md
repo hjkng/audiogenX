@@ -28,16 +28,14 @@ While explanation methods have been extensively explored in various domains, to 
 We agree that there are no prior general methods regardless of domains and also our approach could expand in other seq2seq tasks, which is an interesting direction for our future research in explainability.
 
 ### Question 1: Non-transference from XAI for audio processing models to audio generation models.
-The audio processing model has fundamental differences with audio generation models. First, the type of input differs: audio processing models handle sequential audio input, dealing with a single modality, whereas audio generation models involve textual input, encompassing multi-modal data. Furthermore, since text-to-audio generation models are sequence-to-sequence models, requiring significant modification for the application of XAI methods.
+The audio processing model has fundamental differences with audio generation models. First, the generation model has a different inference mode compared to supervised models, involving top-k and p sampling to predict the output. Since this is related to the next question, we explain the difference further in detail in question 2. Also, the type of input differs: audio processing models handle sequential audio input, dealing with a single modality, whereas audio generation models involve mainly textual input and in some cases conditional melody encompassing multi-modal data. Furthermore, since text-to-audio generation models are sequence-to-sequence models, requiring significant modification for the application of XAI methods.
 
+### Question 2: Consideration of Top-k, p sampling in XAI.
+AudioGenX must account for the nucleus sampling process involved in the audio generation of AudioGen, where the next audio token at each step is selected through a sampling process. This inference process differs from that of supervised models, where the final output is chosen based on the highest probability or logit. With sampling hyper-parameter k=200, the number of possible output candidates is 200. Thus, it is problematic to track the gradient of only one selected logitlike XAI in supervised settings, because this method neglects the information of other audio tokens sharing similar implicit meanings. Therefore, we formulate factual and counterfactual explanations based on final latent embedding vectors before conducting the sampling process.
 
-### Question 2: Consideration of Top-k, p sampling in XAI
+### Question 3: Audio generation models without cross-attention blocks.
+Most current state-of-the-art audio generation models still employ cross-attention blocks to fuse textual and auditory information. Beyond explainability, recent methods for editing in generation settings also utilize the cross-attention layer to re-weight generation objects in the output, highlighting the importance of cross-attention blocks. Nevertheless, our perturbation methods can be applied to models trained with or without cross-attention blocks through minimal modifications, thanks to their adaptable scheme.
 
-AudioGenX must account for the nucleus sampling process involved in AudioGen, where the next audio token at each step is selected through a sampling process. This inference process differs from that of supervised models, where the final output is chosen based on the highest probability or logit. With sampling hyper-parameter k=200, the number of possible output candidates is 200. Thus, it is problematic to track the gradient of only one selected logitlike XAI in supervised settings, because this method neglects the information of other audio tokens sharing similar implicit meanings. Therefore, we formulate factual and counterfactual explanations based on final latent embedding vectors before conducting the sampling process.
-
-
-
-### Question 3: XAI for other type of audio generation models
 
 ### Question 4: Addressing clarity of notations
 
