@@ -56,11 +56,13 @@ We replace multiple MLPs with multiple linear layers and use the PReLU activatio
 We sincerely appreciate your valuable feedback and time for reviewing this paper. For the concerns you bring up, we would like to address them as follows.
 
 ### Weakness 1: Addressing clarity.
+We thank you for your valuable advice for the clarity of the manuscript. We have been revising the related section of our paper more clearly. In respect of perturbation and explanation mask, we answer it further in question 1.
 
 ### Weakness 2: Recommendation for additional datasets.
 
 
 ### Question 1: Optimizing explanation masks.
+To generate faithful explanations in factual and counterfactual, we firstl
 
 ### Question 2: Visual analysis of the attention matrix vs explanation in AudioGenX.
 
@@ -77,12 +79,18 @@ We sincerely appreciate your valuable feedback and time for reviewing this paper
 
 ### Weakness 1: Addressing readability.
 
-### Weakness 2: Addressing lack of readability.
+### Weakness 2: Addressing questions for ML explanation methods.
+We agree that the definition of faith explanation is crucial to meeting the criteria. While proper evaluating metrics are required, such ground truths and labels do not exist in generation tasks. When the same textual input is fed into the generation model, the output can vary due to top-p (nucleus) sampling. Thus, we evaluate the explanations upon the metrics, KL-divergence using the PaSST audio classifier, commonly applied in audio generation models but modified in the context of explainability. 
+
+Besides evaluation metrics, we conduct the sanity check by generating explanations for random initialized networks. 
+
 
 ### Weakness 3: Benefits of the proposed explanations.
 
+Thank you for pointing this out. While explainability serves different roles for each stakeholder, we demonstrate a case study leveraging explainability to analyze the pattern of AudioGen in Section 6.2, RQ 2. Besides debugging the model,  explaining generated audio brings benefits in several cases: 1)  AudioGenX increases awareness of the impact of each input part, helping us ensure that the model focuses on the correct aspects of the text. 2) Explanations provide insight for users to plan the next prompting strategy when the previous audio generation is not satisfied. 3) When the user wants to edit the audio to amplify/suppress the impact of certain textual input, the importance may serve as the actionable information to decide how much to adjust the related weight involving the edition. Please refer to the attached pdf where the figure of the above scenario is described. After reading your comment, we also realized some sentences like the one you quoted here are not rigorous enough. We have revised the manuscript accordingly and attached the figure as shown in pdf.
+
 ### Weakness 4: Addressing typos.
-We thank you for 
+We thank you for your thorough review. We revised the mentioned typo accordingly. 
 
 ### Question 1: Inquiry of overall procedure.
 
@@ -99,4 +107,4 @@ While perturbation-based explanation methods, including factual and counterfactu
 Evaluating explanations is particularly challenging when ground truth or class labels are unavailable. In generation tasks, such ground truths and labels do not exist. When the same textual input is fed into the generation model, the output can vary due to top-p (nucleus) sampling. Therefore, a confusion matrix is inadequate in the absence of ground truths. Given the nature of the audio domain, KL divergence is widely employed in most audio generation research. This metric leverages the distribution of each class to represent the inherent meaning of audio. While traditional audio generation models measure KL divergence between generated audio and reference audio in datasets like AudioCaps, we measure the difference between generated audio and factual/counterfactual audio perturbed through optimized explanation masks. This allows us to observe the impact of explanation masks even in the absence of ground truths.
 
 ### Question 1: Suggestion for another training method to improve the audio generation quality.
-Unfortunately, employing the mentioned methods is not feasible for several reasons. First, evaluation techniques involving audio classification models require audio input, necessitating the generation of the full sequence of audio at every epoch when optimizing the explainer. This makes parallel generation impractical and significantly increases computational time. Second, the redundant process of converting discrete audio tokens to waveforms using Encodec is mandatory for employing an audio classifier, further increasing computational costs. Third, obtaining gradients for optimizing the explainer is unreliable because the top-p or top-k sampling parts must be modified to differential sampling. To address these challenges, we reformulate the problem by explaining sequential output at the token level to generate explanations efficiently. Specifically, we multiply the importance weights with cross-attention weights to generate factual and counterfactual audio, allowing us to observe the impact of respective explanation masks on the generated audio. Notably, we do not utilize reference audio (which typically means the original sound corresponding to specific descriptive text in the AudioCaps dataset) for evaluation but the generated audio.
+Thanks for your kind suggestions. Employing our approach to enhance the quality of audio generation is an interesting topic but the mentioned methods may bring several issues. First, evaluation techniques involving audio classification models require audio input, necessitating the generation of the full sequence of audio at every epoch when optimizing the explainer. This makes parallel generation impractical and significantly increases computational time. Second, the redundant process of converting discrete audio tokens to waveforms using Encodec is mandatory for employing an audio classifier, further increasing computational costs. Third, obtaining gradients for optimizing the explainer is unreliable because the top-p or top-k sampling parts must be modified to differential sampling. To address these challenges, we reformulate the problem by explaining sequential output at the token level to generate explanations efficiently. Specifically, we multiply the importance weights with cross-attention weights to generate factual and counterfactual audio, allowing us to observe the impact of respective explanation masks on the generated audio. In conclusion, we hold our proposed framework in sequential output not only for explainability but also for other purposes.
