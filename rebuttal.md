@@ -19,16 +19,16 @@ We present explanations for cases involving negation and double negation, as det
 We sincerely appreciate your valuable feedback and time for reviewing this paper. For the concerns you bring up, we would like to address them as follows.
 
 ### Weakness 1: Addressing clarity and coherence.
-We thank you for your thorough and valuable review. We agree that notations are quite numerous to represent the architecture of Audiogen where many components are composed. We have 
+We thank you for your thorough and valuable review. We agree that notations are quite numerous to represent the architecture of Audiogen originally where many components are composed. We have revised the related section of our paper more clearly.
 
 ### Weakness 2: Addressing the experimental setting
 While explanation methods have been extensively explored in various domains, to our knowledge, no existing methods address explanations for text-to-audio generation models. Consequently, evaluation metrics for explainability in the audio generation domain do not exist yet. In other domains, fidelity is one of the prevalent metrics that measure the change of target class probability in supervised settings. However, In generation tasks, such ground truths and labels do not exist. When the same textual input is fed into the generation model, the output can vary due to top-p (nucleus) sampling. Thus, evaluating explanations is particularly challenging when ground truth or class labels are unavailable. Therefore, a fidelity or confusion matrix is inadequate in the absence of ground truths. Given the nature of the audio domain, KL divergence is widely employed in most audio generation research. This metric leverages the distribution of each class to represent the inherent meaning of audio. While traditional audio generation models measure KL divergence between generated audio and reference audio in datasets like AudioCaps, we measure the difference between generated audio and factual/counterfactual audio perturbed through optimized explanation masks. This allows us to observe the impact of explanation masks even in the absence of ground truths.
 
-### Weakness 3: Suggestion of applying a generalizable approach in other seq2seq tasks 
+### Weakness 3: Applying our method in other seq2seq tasks.
+We agree that there are no prior general methods regardless of domains and also our approach could expand in other seq2seq tasks, which is an interesting direction for our future research in explainability.
 
-
-### Question 1: Non-transference from XAI for audio precessing models to audio generation models
-Audio processing model is mainly sequence-to-one model to predict the target class by processing the input audio in tasks of speech recognition and audio classification. These models take sequential input as audio and predict the target class in supervised settings. Since text-to-audio generation model is squence-to-sequence model, taking input as text and generating sequential output as audio in multi-modality, the current method in line 30 is inapplicable to adapt for explanation of AudioGen.
+### Question 1: Non-transference from XAI for audio processing models to audio generation models.
+The audio processing model has fundamental differences with audio generation models. First, the type of input differs: audio processing models handle sequential audio input, dealing with a single modality, whereas audio generation models involve textual input, encompassing multi-modal data. Furthermore, since text-to-audio generation models are sequence-to-sequence models, requiring significant modification for the application of XAI methods.
 
 
 ### Question 2: Consideration of Top-k, p sampling in XAI
