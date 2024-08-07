@@ -33,6 +33,10 @@ The audio processing model has fundamental differences with audio generation mod
 
 ### Question 2: Consideration of Top-k, p sampling in XAI
 
+AudioGenX must account for the nucleus sampling process involved in AudioGen, where the next audio token at each step is selected through a sampling process. This inference process differs from that of supervised models, where the final output is chosen based on the highest probability or logit. With sampling hyper-parameter k=200, the number of possible output candidates is 200. Thus, it is problematic to track the gradient of only one selected logitlike XAI in supervised settings, because this method neglects the information of other audio tokens sharing similar implicit meanings. Therefore, we formulate factual and counterfactual explanations based on final latent embedding vectors before conducting the sampling process.
+
+
+
 ### Question 3: XAI for other type of audio generation models
 
 ### Question 4: Addressing clarity of notations
