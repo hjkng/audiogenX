@@ -19,18 +19,29 @@ We present explanations for cases involving negation and double negation, as det
 We sincerely appreciate your valuable feedback and time for reviewing this paper. For the concerns you bring up, we would like to address them as follows.
 
 ### Weakness 1: Addressing clarity and coherence.
-We thanks for bringing up this lack of clarity. We agree that notations are quite numerous to represent the architecutre of Audiogen where many components are composed. 
+We thank you for your thorough and valuable review. We agree that notations are quite numerous to represent the architecture of Audiogen where many components are composed. We have 
 
-### Weakness 2: Addressing 
+### Weakness 2: Addressing the experimental setting
+While explanation methods have been extensively explored in various domains, to our knowledge, no existing methods address explanations for text-to-audio generation models. Consequently, evaluation metrics for explainability in the audio generation domain do not exist yet. In other domains, fidelity is one of the prevalent metrics that measure the change of target class probability in supervised settings. However, In generation tasks, such ground truths and labels do not exist. When the same textual input is fed into the generation model, the output can vary due to top-p (nucleus) sampling. Thus, evaluating explanations is particularly challenging when ground truth or class labels are unavailable. Therefore, a fidelity or confusion matrix is inadequate in the absence of ground truths. Given the nature of the audio domain, KL divergence is widely employed in most audio generation research. This metric leverages the distribution of each class to represent the inherent meaning of audio. While traditional audio generation models measure KL divergence between generated audio and reference audio in datasets like AudioCaps, we measure the difference between generated audio and factual/counterfactual audio perturbed through optimized explanation masks. This allows us to observe the impact of explanation masks even in the absence of ground truths.
 
-### Weakness 3: Addressing general
+### Weakness 3: Suggestion of applying a generalizable approach in other seq2seq tasks 
 
 
-### Question 1-2:
+### Question 1: Non-transference from XAI for audio precessing models to audio generation models
+Audio processing model is mainly sequence-to-one model to predict the target class by processing the input audio in tasks of speech recognition and audio classification. These models take sequential input as audio and predict the target class in supervised settings. Since text-to-audio generation model is squence-to-sequence model, taking input as text and generating sequential output as audio in multi-modality, the current method in line 30 is inapplicable to adapt for explanation of AudioGen.
 
-### Question 3-5:
 
-### Question 6-11:
+### Question 2: Consideration of Top-k, p sampling in XAI
+
+### Question 3: XAI for other type of audio generation models
+
+### Question 4: Addressing clarity of notations
+
+### Question 5: Definition of $h_{E}$
+
+### Question 6-7: Definition of the mask
+
+### Question 8-11: 
 
 
 
@@ -62,11 +73,9 @@ We sincerely appreciate your valuable feedback and time for reviewing this paper
 
 ### Weakness 2: Addressing lack of readability.
 
-
-### Weakness 3: Addressing lack of readability.
+### Weakness 3: Benefits of the proposed explanations.
 
 ### Weakness 4: Addressing typos.
-
 
 ### Question 1: Inquiry of overall procedure.
 
@@ -85,6 +94,3 @@ Evaluating explanations is particularly challenging when ground truth or class l
 
 ### Question 1: Suggestion for another training method to improve the audio generation quality.
 Unfortunately, employing the mentioned methods is not feasible for several reasons. First, evaluation techniques involving audio classification models require audio input, necessitating the generation of the full sequence of audio at every epoch when optimizing the explainer. This makes parallel generation impractical and significantly increases computational time. Second, the redundant process of converting discrete audio tokens to waveforms using Encodec is mandatory for employing an audio classifier, further increasing computational costs. Third, obtaining gradients for optimizing the explainer is unreliable because the top-p or top-k sampling parts must be modified to differential sampling. To address these challenges, we reformulate the problem by explaining sequential output at the token level to generate explanations efficiently. Specifically, we multiply the importance weights with cross-attention weights to generate factual and counterfactual audio, allowing us to observe the impact of respective explanation masks on the generated audio. Notably, we do not utilize reference audio (which typically means the original sound corresponding to specific descriptive text in the AudioCaps dataset) for evaluation but the generated audio.
-
-
-
