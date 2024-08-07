@@ -1,5 +1,5 @@
 ## Response to Reviewer 81aq
-We sincerely appreciate your valuable feedback and time for reviewing this paper. For the concerns you bring up, we would like to address them as follows.
+We sincerely appreciate your valuable feedback and time for reviewing this paper. For the concerns you bring up, we would like to address them as follows:
 
 ### Weakness 1: Scenario of AudioGenX.
 Thank you for pointing this out. Explaining generated audio brings benefits in several cases: 1)  AudioGenX increases awareness of the impact of each input part, helping us ensure that the model focuses on the correct aspects of the text. 2) Explanations provide insight for users to plan the next prompting strategy when the previous audio generation is not satisfied. 3) When the user wants to edit the audio to amplify/suppress the impact of certain textual input, the importance may serve as the actionable information to decide how much to adjust the related weight involving the edition. Please refer to the attached pdf where the figure of the above scenario is described.
@@ -16,7 +16,7 @@ We present explanations for cases involving negation and double negation, as det
 ----------------------------------------------------------------------------
 
 ## Response to Reviewer s1so
-We sincerely appreciate your valuable feedback and time for reviewing this paper. For the concerns you bring up, we would like to address them as follows.
+We sincerely appreciate your valuable feedback and time for reviewing this paper. For the concerns you bring up, we would like to address them as follows:
 
 ### Weakness 1: Addressing clarity and coherence.
 We thank you for your thorough and valuable review. We agree that notations are quite numerous to represent the architecture of Audiogen originally where many components are composed. We have revised the related section of our paper more clearly.
@@ -53,7 +53,7 @@ We replace multiple MLPs with multiple linear layers and use the PReLU activatio
 ----------------------------------------------------------------------------
 
 ## Response to Reviewer rLwA
-We sincerely appreciate your valuable feedback and time for reviewing this paper. For the concerns you bring up, we would like to address them as follows.
+We sincerely appreciate your valuable feedback and time for reviewing this paper. For the concerns you bring up, we would like to address them as follows:
 
 ### Weakness 1: Addressing clarity.
 We thank you for your valuable advice for the clarity of the manuscript. We have been revising the related section of our paper more clearly. In respect of perturbation and explanation mask, we answer it further in question 1.
@@ -65,6 +65,8 @@ We thank you for your valuable advice for the clarity of the manuscript. We have
 To generate faithful explanations in factual and counterfactual, we firstl
 
 ### Question 2: Visual analysis of the attention matrix vs explanation in AudioGenX.
+Figure (3) in the attached image illustrates the effect of $M_{u, z_t}$ on the attention mechanism within AudioGen's first cross-attention block, displaying attention scores, mask values, and the product of both. Attention scores alone are insufficient for explanations because, post-softmax, they are multiplied by $V$, which significantly influences the outcome. Initially, keywords related to sounds such as "rain," "forest," and "thunder" have relatively low attention scores despite their factual importance. However, these tokens are assigned significantly higher mask values $M_{u, z_t}$, indicating their crucial role in sound generation. When multiplying the attention scores by the mask values, the important tokens maintain or increase their significance, while less important tokens see a reduction. As a result, the relative ranking of attention values ​​of important tokens increased and AudioGenX can make the final embeddings more similar to the reference audio embeddings. From a counterfactual perspective, reducing the significance of important tokens while increasing that of less important ones would lead to embeddings that diverge from the reference audio embeddings.
+
 
 ### Question 3: Hyper-parameter setting for coefficient β and γ.
 Hyperparameter search for β and γ is conducted on the valid dataset which is described in line 240 in section 5.
@@ -80,9 +82,7 @@ We sincerely appreciate your valuable feedback and time for reviewing this paper
 ### Weakness 1: Addressing readability.
 
 ### Weakness 2: Addressing questions for ML explanation methods.
-We agree that the definition of faith explanation is crucial to meeting the criteria. While proper evaluating metrics are required, such ground truths and labels do not exist in generation tasks. When the same textual input is fed into the generation model, the output can vary due to top-p (nucleus) sampling. Thus, we evaluate the explanations upon the metrics, KL-divergence using the PaSST audio classifier, commonly applied in audio generation models but modified in the context of explainability. 
-
-Besides evaluation metrics, we conduct the sanity check by generating explanations for random initialized networks. 
+We agree that the definition of faith explanation is crucial to meeting the criteria. While proper evaluating metrics are required, such ground truths and labels do not exist in generation tasks. When the same textual input is fed into the generation model, the output can vary due to top-p (nucleus) sampling. Thus, we evaluate the explanations upon the metrics, KL-divergence using the PaSST audio classifier, commonly applied in audio generation models but modified in the context of explainability. Besides evaluation metrics, we conduct the sanity check by generating explanations for random initialized networks that predict the audio tokens. The results are shown in Figure (3) of the attached PDF. Unlike the explanations generated based on the trained AudioGen, all models, including the baseline, produced results where the influence of each token was nearly indistinguishable. This indicates that AudioGen generates faithful explanations.
 
 
 ### Weakness 3: Benefits of the proposed explanations.
@@ -98,7 +98,7 @@ We thank you for your thorough review. We revised the mentioned typo accordingly
 ----------------------------------------------------------------------------
 
 ## Response to Reviewer yHGn
-We sincerely appreciate your valuable feedback and time for reviewing this paper. For the concerns you bring up, we would like to address them as follows.
+We sincerely appreciate your valuable feedback and time for reviewing this paper. For the concerns you bring up, we would like to address them as follows:
 
 ### Weakness 1: Addressing novelty.
 While perturbation-based explanation methods, including factual and counterfactual approaches, have been extensively explored and proven effective in various domains, to our knowledge, no existing methods address explanations for text-to-audio generation models. Furthermore, no studies have demonstrated the efficacy of perturbation-based reasoning in audio generation. We conducted experiments using state-of-the-art explainability methods upon the metrics commonly applied in audio generation models but modified in the context of explainability. Our results indicate that AudioGenX significantly outperforms existing explanation methods originally from other domains in generating explanations. In conclusion, our contribution lies in pioneering transparency solutions in the audio domain and proposing faithful explanation methods for the first time.
