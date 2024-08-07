@@ -80,19 +80,20 @@ The time complexity of ATMAN is $O(T_u)$, where $T_u$ represents the number of t
 We sincerely appreciate your valuable feedback and time for reviewing this paper. For the concerns you bring up, we would like to address them as follows.
 
 ### Weakness 1: Addressing readability.
+Thank you for your suggestions. We realized that some sentences, like the one you quoted, were not rigorous enough. We have revised the manuscript accordingly to be more clear and precise.
 
 ### Weakness 2: Addressing questions for ML explanation methods.
 We agree that the definition of faith explanation is crucial to meeting the criteria. While proper evaluating metrics are required, such ground truths and labels do not exist in generation tasks. When the same textual input is fed into the generation model, the output can vary due to top-p (nucleus) sampling. Thus, we evaluate the explanations upon the metrics, KL-divergence using the PaSST audio classifier, commonly applied in audio generation models but modified in the context of explainability. Besides evaluation metrics, we conduct the sanity check by generating explanations for random initialized networks that predict the audio tokens. The results are shown in Figure (3) of the attached PDF. Unlike the explanations generated based on the trained AudioGen, all models, including the baseline, produced results where the influence of each token was nearly indistinguishable. This indicates that AudioGen generates faithful explanations.
 
 
 ### Weakness 3: Benefits of the proposed explanations.
-
-Thank you for pointing this out. While explainability serves different roles for each stakeholder, we demonstrate a case study leveraging explainability to analyze the pattern of AudioGen in Section 6.2, RQ 2. Besides debugging the model,  explaining generated audio brings benefits in several cases: 1)  AudioGenX increases awareness of the impact of each input part, helping us ensure that the model focuses on the correct aspects of the text. 2) Explanations provide insight for users to plan the next prompting strategy when the previous audio generation is not satisfied. 3) When the user wants to edit the audio to amplify/suppress the impact of certain textual input, the importance may serve as the actionable information to decide how much to adjust the related weight involving the edition. Please refer to the attached pdf where the figure of the above scenario is described. After reading your comment, we also realized some sentences like the one you quoted here are not rigorous enough. We have revised the manuscript accordingly and attached the figure as shown in pdf.
+Thank you for pointing this out. While explainability serves different roles for each stakeholder, we demonstrate a case study leveraging explainability to analyze the pattern of AudioGen in Section 6.2, RQ 2. Besides debugging the model,  explaining generated audio brings benefits in several cases: 1)  AudioGenX increases awareness of the impact of each input part, helping us ensure that the model focuses on the correct aspects of the text. 2) Explanations provide insight for users to plan the next prompting strategy when the previous audio generation is not satisfied. 3) When the user wants to edit the audio to amplify/suppress the impact of certain textual input, the importance may serve as the actionable information to decide how much to adjust the related weight involving the edition. Please refer to the attached pdf where the figure of the above scenario is described.
 
 ### Weakness 4: Addressing typos.
 We thank you for your thorough review. We revised the mentioned typo accordingly. 
 
-### Question 1: Inquiry of overall procedure.
+### Question 1: Inquiry of the procedure.
+Algorithm 1 describes the procedure for obtaining explanations for text-audio pairs. Since audio is a sequential output that can be decomposed into audio tokens, we train the explainer to predict the mask at the audio token level, denoted as $Explainer_{token}$. Line 259 refers to $Explainer_{token}$, which generates the explanation mask. The input to the explainer is the representation vector of the textual input token. Thus, dim = 1536 indicates the dimension of the representation vector of the textual input token, and dim = 512 refers to the hidden dimension of the hidden layer in the explainer. After reading your comment, we also realized some sentences like the one you quoted here are not appropriate. In Algorithm 1, the initialization should be placed outside the loop, we have revised line 4 in the algorithm. 
 
 
 ----------------------------------------------------------------------------
