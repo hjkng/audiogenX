@@ -33,14 +33,14 @@ parser.add_argument('--hard', default=False, type=bool)
 
 parser.add_argument('--lr', default=1E-3, type=float)
 parser.add_argument('--epochs', default=50, type=int)
-parser.add_argument('--test', default=5, type=float)
+parser.add_argument('--repeats', default=1, type=float)
 
 parser.add_argument('--beta', default=1E-3, type=float)
 parser.add_argument('--gamma', default=1E-1, type=float)
 args = parser.parse_args()
 
 if __name__ == '__main__':
-    promt_data = f"./data/{args.dataset}.csv"
+    promt_data = f"./data/{args.dataset}/{args.dataset}.csv"
     data_dir = f"./data/{args.dataset}/"
     result_dir = f'./results/{args.dataset}/'
 
@@ -62,7 +62,7 @@ if __name__ == '__main__':
     hear21passt_model.eval()
     model = hear21passt_model.to(device)
 
-    sequences = torch.load(f'{dir}/sequences.pt')
+    sequences = torch.load(f'{data_dir}/sequences.pt')
     conds = torch.load(f'{data_dir}/conds.pt')
     descriptions = pd.read_csv(promt_data)['caption'].tolist()
 
@@ -73,7 +73,7 @@ if __name__ == '__main__':
 
     epochs = args.epochs
     lr = args.lr
-    test_case = args.test
+    test_case = args.repeats
 
     cos = nn.CosineSimilarity(dim=-1, eps=1e-6)
 
@@ -116,7 +116,6 @@ if __name__ == '__main__':
             cond_F, _ = out_F.split(out_F.shape[0]//2, dim=0)
             cond_CF, _ = out_CF.split(out_CF.shape[0]// 2, dim=0)
 
-
             loss_F = - cos(ori_cond, cond_F.squeeze()).sum()
             loss_CF = cos(ori_cond, cond_CF.squeeze()).sum()
 
@@ -151,14 +150,10 @@ if __name__ == '__main__':
             sequence, _, _ = explainer.generate_with_mask([description] * test_case, mask=1-reparams)
             audio_CF = explainer.token_to_audio(sequence)
 
-        with torch.no_grad():
-            sequence, _, _ = explainer.generate_with_mask([description] * test_case)
-            audio_N = explainer.token_to_audio(sequence)
+        audio_CF = julius.resample_frac(audio_F, 16000, 32000)
 
-        audio_N = julius.resample_frac(audio_N, 16000, 32000)
-        print(f"N={test_case} audio done")
 
-        audios = torch.cat([audio_ori, audio_F, audio_CF, audio_N]).squeeze(1)
+        audios = torch.cat([audio_ori, audio_F, audio_CF]).squeeze(1)
         clipwise_output = model(audios).softmax(-1).to(device)
 
         kl_loss = nn.KLDivLoss(reduction='none')
@@ -186,8 +181,7 @@ if __name__ == '__main__':
             'mask': reparams.cpu(),
 
             'audio_F' : audio_F.cpu(),
-            'audio_CF' :audio_CF.cpu(),
-            'audio_N' : audio_N.cpu(),
+            'audio_CF' :audio_CF.cpu()
             }
         , f'{result_dir}/{idx}.pth')
 
@@ -195,8 +189,7 @@ if __name__ == '__main__':
             'index' : index,
 
             'factual_mean' : kl_mean[0],
-            'cf_mean': kl_mean[1],
-            'n_mean': kl_mean[2],
+            'cf_mean': kl_mean[1]
 
             'mask': mask_size,
         }
