@@ -1,7 +1,4 @@
 import os
-import sys
-# project_path = '' # absolute path of your project
-# sys.path.append(project_path)
 from audiocraft.models import AudioGen
 from audiocraft.models import Explainer
 from audiocraft.models import MaskGenerator
@@ -13,6 +10,10 @@ import pandas as pd
 from tqdm import tqdm
 from hear21passt.base import get_basic_model
 import julius
+
+import sys
+project_path = './audiogenX' # absolute path of your project
+sys.path.append(project_path)
 
 
 def gen_mask(maskGenerators, emb):
@@ -28,13 +29,11 @@ def gen_mask(maskGenerators, emb):
     return params, reparams
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--dataset', default='test', type=str)
+parser.add_argument('--dataset', default='sample', choices=['sample', 'test','valid'], type=str)
 parser.add_argument('--hard', default=False, type=bool)
-
 parser.add_argument('--lr', default=1E-3, type=float)
 parser.add_argument('--epochs', default=50, type=int)
-parser.add_argument('--repeats', default=1, type=float)
-
+parser.add_argument('--repeats', default=3, type=float)
 parser.add_argument('--beta', default=1E-3, type=float)
 parser.add_argument('--gamma', default=1E-1, type=float)
 args = parser.parse_args()
@@ -73,7 +72,7 @@ if __name__ == '__main__':
 
     epochs = args.epochs
     lr = args.lr
-    test_case = args.repeats
+    num_repeats = args.repeats
 
     cos = nn.CosineSimilarity(dim=-1, eps=1e-6)
 
@@ -139,21 +138,20 @@ if __name__ == '__main__':
         # Mask
         with torch.no_grad():
             params, reparams = gen_mask(maskGenerators, description_emb)
-            sequence, _, _ = explainer.generate_with_mask([description] * test_case, mask=reparams)
+            sequence, _, _ = explainer.generate_with_mask([description] * num_repeats, mask=reparams)
+            # reparam [len of seqen=253, #of tokens], 
             audio_F = explainer.token_to_audio(sequence)
 
         audio_F = julius.resample_frac(audio_F, 16000, 32000)
-        print("factual audio done")
 
         # 1-Mask
         with torch.no_grad():
-            sequence, _, _ = explainer.generate_with_mask([description] * test_case, mask=1-reparams)
+            sequence, _, _ = explainer.generate_with_mask([description] * num_repeats, mask=1-reparams)
             audio_CF = explainer.token_to_audio(sequence)
 
-        audio_CF = julius.resample_frac(audio_F, 16000, 32000)
+        audio_CF = julius.resample_frac(audio_CF, 16000, 32000) ###
 
-
-        audios = torch.cat([audio_ori, audio_F, audio_CF]).squeeze(1)
+        audios = torch.cat([audio, audio_F, audio_CF]).squeeze(1)
         clipwise_output = model(audios).softmax(-1).to(device)
 
         kl_loss = nn.KLDivLoss(reduction='none')
@@ -162,7 +160,7 @@ if __name__ == '__main__':
             kl.append(kl_loss((clipwise_output[0]+EPS).log(), clipwise_output[i]).sum(-1).item())
         kl = torch.tensor(kl).to(device)
 
-        kl = kl.split(test_case)
+        kl = kl.split(num_repeats)
         kls = [tmp.mean().item() for tmp in kl]
 
         for i, mean in enumerate(kls):
@@ -170,10 +168,8 @@ if __name__ == '__main__':
 
         mask_size.append(reparams.mean().item())
 
-
         formatted_list = [f"{a:.2f}" for a in kls]
         print(formatted_list)
-
 
         torch.save(
             {
@@ -189,10 +185,10 @@ if __name__ == '__main__':
             'index' : index,
 
             'factual_mean' : kl_mean[0],
-            'cf_mean': kl_mean[1]
+            'cf_mean': kl_mean[1],
 
             'mask': mask_size,
         }
 
         df = pd.DataFrame(data)
-        df.to_csv(f'{result_dir}/{args.version}.csv', index=True)
+        df.to_csv(f'{result_dir}/results.csv', index=True)
