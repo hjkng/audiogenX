@@ -13,7 +13,7 @@ Refer to requirements.txt for more details.
 ```shell
   pip install -r requirements.txt
   
-# If you want to use the model in your project, add the project path to the sys path in head of the codes
+  # If you want to use the model in your project, add the project path to the sys path in head of the codes
   import sys
   project_path = '' # absolute path of your project
   sys.path.append(project_path)
