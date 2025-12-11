@@ -50,7 +50,7 @@ AudioGenX/
 ├── audiocraft/                     
         │
         └── models/                 
-               ├── audiogen.py      # audigen 
+               ├── audiogen.py      # audiogen 
                ├── lm.py            # predict sequence of audio token
                ├── mask.py          # explanation mask 
                └── explainer.py     # generate explanation mask for generated audio                     
